@@ -12,7 +12,7 @@ not whole screens.
 ## Fault 1: The report is killed
 
 - Symptom:
-- Commands you used and what they showed:
+- Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
 - Before and after (peak memory, elapsed time):
@@ -20,7 +20,7 @@ not whole screens.
 ## Fault 2: The extracts are empty
 
 - Symptom:
-- Commands you used and what they showed:
+- Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
 - Before and after:
@@ -28,7 +28,7 @@ not whole screens.
 ## Fault 3: The audit trail is slow
 
 - Symptom:
-- Commands you used and what they showed:
+- Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
 - Before and after (system calls, user and system time):
@@ -36,7 +36,7 @@ not whole screens.
 ## Fault 4: segments.py
 
 - Symptom:
-- Commands you used and what they showed:
+- Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
 - Before and after:
@@ -44,7 +44,7 @@ not whole screens.
 ## Fault 5: stats.sh
 
 - Symptom:
-- Commands you used and what they showed:
+- Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
 - Before and after:
@@ -52,9 +52,9 @@ not whole screens.
 ## The worker experiment
 
 Every member runs `tools/sweep.sh` on their own laptop. Then run
-`python3 tools/plot_sweep.py` and commit `results/sweep.svg`.
+`python3 tools/plot_sweep.py` and commit `results/sweep.png`.
 
-![Elapsed time against the number of workers](results/sweep.svg)
+![Elapsed time against the number of workers](results/sweep.png)
 
 - How does the elapsed time change with the number of workers on each laptop?
 - Why do the curves of your laptops differ?
