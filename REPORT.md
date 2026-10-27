@@ -4,12 +4,12 @@ Write your answers in this file. Keep them short: a few sentences, the commands
 you used, and the numbers you measured. Copy the lines of output that matter,
 not whole screens.
 
-## Warm-up: Starting the report
+## Warm-up: Generating the report
 
 - What happened, and why:
 - Your fix, and how it reached your teammates:
 
-## Task 1: Generating the report
+## Task 1: Generating the report… again
 
 - Symptom:
 - Commands and recordings you used, why you chose them, and what they showed:
