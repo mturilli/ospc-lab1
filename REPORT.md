@@ -4,50 +4,50 @@ Write your answers in this file. Keep them short: a few sentences, the commands
 you used, and the numbers you measured. Copy the lines of output that matter,
 not whole screens.
 
-## Warm-up: Permission denied
+## Warm-up: Starting the report
 
 - What happened, and why:
 - Your fix, and how it reached your teammates:
 
-## Fault 1: The report is killed
+## Task 1: Generating the report
 
 - Symptom:
 - Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
-- Before and after (peak memory, elapsed time):
+- Before and after (your measurements):
 
-## Fault 2: The extracts are empty
-
-- Symptom:
-- Commands and recordings you used, why you chose them, and what they showed:
-- Cause:
-- Fix:
-- Before and after:
-
-## Fault 3: The audit trail is slow
+## Task 2: Extracting data
 
 - Symptom:
 - Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
-- Before and after (system calls, user and system time):
+- Before and after (your measurements):
 
-## Fault 4: segments.py
-
-- Symptom:
-- Commands and recordings you used, why you chose them, and what they showed:
-- Cause:
-- Fix:
-- Before and after:
-
-## Fault 5: stats.sh
+## Task 3: Auditing
 
 - Symptom:
 - Commands and recordings you used, why you chose them, and what they showed:
 - Cause:
 - Fix:
-- Before and after:
+- Before and after (your measurements):
+
+## Task 4: Segmenting the orders
+
+- Symptom:
+- Commands and recordings you used, why you chose them, and what they showed:
+- Cause:
+- Fix:
+- Before and after (your measurements):
+
+## Task 5: Computing the statistics
+
+- Symptom:
+- Commands and recordings you used, why you chose them, and what they showed:
+- Cause:
+- Fix:
+- Before and after (your measurements):
 
 ## The worker experiment
 
