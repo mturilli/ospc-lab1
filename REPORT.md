@@ -57,7 +57,8 @@ Every member runs `tools/sweep.sh` on their own laptop. Then run
 ![Elapsed time against the number of workers](results/sweep.png)
 
 - How does the elapsed time change with the number of workers on each laptop?
-- Why do the curves of your laptops differ?
+- Why do the curves of your laptops differ? Use the cores and threads of each
+  laptop, listed in `TEAM.md`.
 - Which default number of workers did you choose for `stats.sh`, and why?
 
 ## Use of generative AI
