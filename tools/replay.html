@@ -404,9 +404,11 @@ function buildMemory() {
   const recs = loaded().filter(r => r.has.has('memory'));
   if (!recs.length) return;
   const s = section('memory', 'Memory',
-    'The container: <code>memory.current</code> of its cgroup, split as <code>memory.stat</code> reports it ' +
-    '(<code>anon</code>: memory of the processes; <code>file</code>: page cache), and its limit, <code>memory.max</code>. ' +
-    'The processes: resident set size (RSS) from <code>/proc/PID/stat</code>. Sampled every 50 ms, so a peak shorter than that can be missed.');
+    'The container: the memory it uses against its limit, as the kernel counts them for the container ' +
+    '(<code>memory.current</code> and <code>memory.max</code> in <code>/sys/fs/cgroup</code>). ' +
+    'Blue is the programs\' own data, such as their tables; the kernel calls it <code>anon</code>, for anonymous, because it is not a copy of any file. ' +
+    'Orange is the page cache: file data the kernel keeps in RAM, and frees when memory runs short. ' +
+    'The processes: the resident set size (RSS) of each one. Sampled every 50 ms, so a shorter peak can be missed.');
   let top = 0, ptop = 0;
   for (const r of recs) {
     top = Math.max(top, r.raw.machine.memory_max_kb || 0, ...r.raw.container.current.filter(v => v != null));
@@ -419,11 +421,11 @@ function buildMemory() {
     const c = r.raw.container, ts = r.t, max = r.raw.machine.memory_max_kb;
     const anon = c.anon, file = c.anon.map((a, k) => a + c.file[k]);
     const cur = c.current.map((v, k) => Math.max(v ?? 0, file[k]));
-    const items = [{ name: 'anon', color: SERIES[0] }, { name: 'file (page cache)', color: SERIES[1] }, { name: 'other', color: OTHER }];
-    if (max) items.push({ name: `memory.max = ${fmtKiB(max)}`, kind: 'dash' });
+    const items = [{ name: 'programs\' data (anon)', color: SERIES[0] }, { name: 'page cache (file)', color: SERIES[1] }, { name: 'other kernel memory', color: OTHER }];
+    if (max) items.push({ name: `limit (memory.max) = ${fmtKiB(max)}`, kind: 'dash' });
     const ch = chart(s, { title: `${tagHtml(tag)}The container`, legend: items, ymax: ct.top, yticks: ct.ticks, yfmt: memAxis,
       end: r.duration, gaps: r.gaps,
-      tip: t => { const i = indexAt(r, t); return tipRow(OTHER, 'memory.current', fmtKiB(c.current[i])) + tipRow(SERIES[0], 'anon', fmtKiB(c.anon[i])) + tipRow(SERIES[1], 'file', fmtKiB(c.file[i])); } });
+      tip: t => { const i = indexAt(r, t); return tipRow(OTHER, 'in use (memory.current)', fmtKiB(c.current[i])) + tipRow(SERIES[0], 'programs\' data (anon)', fmtKiB(c.anon[i])) + tipRow(SERIES[1], 'page cache (file)', fmtKiB(c.file[i])); } });
     area(ch, ts, file, cur, OTHER, r.segs);
     area(ch, ts, ts.map(() => 0), anon, SERIES[0], r.segs);
     area(ch, ts, anon, file, SERIES[1], r.segs);
@@ -466,11 +468,11 @@ function buildMemory() {
       const counters = at(c.events, i) || {};
       const procs = alive(r, i).filter(p => p.rss);
       const delta = k => counters[k] - (first[k] || 0);
-      now.innerHTML = note + `<table class="now"><tr><th>${tagHtml(tag)}</th><th class="num">memory.current</th><th class="num">anon</th><th class="num">file</th><th class="num">memory.max</th>` +
+      now.innerHTML = note + `<table class="now"><tr><th>${tagHtml(tag)}</th><th class="num">in use (memory.current)</th><th class="num">programs' data (anon)</th><th class="num">page cache (file)</th><th class="num">limit (memory.max)</th>` +
         Object.keys(counters).map(k => `<th class="num">${esc(k)}</th>`).join('') +
         `</tr><tr><td>container</td><td class="num">${fmtKiB(c.current[i])}</td><td class="num">${fmtKiB(c.anon[i])}</td><td class="num">${fmtKiB(c.file[i])}</td><td class="num">${max ? fmtKiB(max) : 'none'}</td>` +
         Object.keys(counters).map(k => `<td class="num">${fmtInt(counters[k])}${delta(k) ? ` <span class="pct">(+${fmtInt(delta(k))})</span>` : ''}</td>`).join('') +
-        `</tr></table><p class="pct" style="margin:-4px 0 8px">The memory.events counters count since the container started; (+N) is the change since this recording started.</p>` +
+        `</tr></table><p class="pct" style="margin:-4px 0 8px">memory.events counts what happened as the container approached or reached its limit, since the container started; (+N) is the change during this recording.</p>` +
         (procs.length ? `<table class="now"><tr><th>PID</th><th>command</th><th class="num">RSS now</th><th class="num">highest so far</th></tr>` +
           procs.map(p => `<tr><td>${p.pid}</td><td class="wrap">${esc(at(p.cmd, i))}</td><td class="num">${fmtKiB(val(p, 'rss', i))}</td><td class="num">${fmtKiB(Math.max(...p.rss.slice(0, i - p.first + 1)))}</td></tr>`).join('') + '</table>'
           : nobody(tag));
