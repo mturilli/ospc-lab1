@@ -6,6 +6,7 @@ import pandas as pd
 
 DATA = os.environ.get("DATA", os.path.expanduser("~/data/sales_2025.csv"))
 OUT = os.environ.get("OUT", os.path.expanduser("~/data/out"))
+os.makedirs(OUT, exist_ok=True)
 path = os.path.join(OUT, "audit_2025.csv")
 
 orders = pd.read_csv(DATA, usecols=["order_id", "region", "quantity", "unit_price"])

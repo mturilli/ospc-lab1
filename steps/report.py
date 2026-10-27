@@ -6,6 +6,7 @@ import pandas as pd
 
 DATA = os.environ.get("DATA", os.path.expanduser("~/data/sales_2025.csv"))
 OUT = os.environ.get("OUT", os.path.expanduser("~/data/out"))
+os.makedirs(OUT, exist_ok=True)
 
 orders = pd.read_csv(DATA)
 size = orders.memory_usage(deep=True).sum() / 2**20
